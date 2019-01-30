@@ -20,7 +20,7 @@ public class HelloRestController {
 	private ProductService productService;
 	
 	
-	@RequestMapping("/")
+	@RequestMapping("/welcome")
 	public String welcome() {
 		return "Hello from STS!!!! again...once";
 	}
@@ -89,7 +89,10 @@ public class HelloRestController {
 		return productService.getAllProductsSort(entityVariable);
 	}
 	
-	
+	@RequestMapping("/get/{order}/{price}")
+	public List<Product> getProductByPriceGreaterThan(@PathVariable String order, @PathVariable Long price){
+		return productService.getProductByPriceGreaterThan(order, price);
+	}
 	
 	 //http://localhost:1234/get/sort/{entityVariable}/{order}
 }

@@ -56,6 +56,11 @@ public class ProductService {
 		// TODO Auto-generated method stub
 		return productDao.getAllProductsSort(entityVariable);
 	}
+
+	public List<Product> getProductByPriceGreaterThan(String order, Long price) {
+		// TODO Auto-generated method stub
+		return productDao.getProductByPriceGreaterThan(order, price);
+	}
 	
 	
 

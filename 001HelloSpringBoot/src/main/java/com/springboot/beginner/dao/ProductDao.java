@@ -97,4 +97,18 @@ public class ProductDao {
 		 */
 	}
 
+	public List<Product> getProductByPriceGreaterThan(String order, Long price) {
+		// TODO Auto-generated method stub
+		
+		if(order.equalsIgnoreCase("asc")) {
+			Sort mysort = new Sort(new Sort.Order(Direction.ASC, "price"));
+			return productRepository.findByPriceGreaterThan(price, mysort);
+		}else if(order.equalsIgnoreCase("dsc")) {
+			Sort mysort = new Sort(new Sort.Order(Direction.DESC, "price"));
+			return productRepository.findByPriceGreaterThan(price, mysort);
+		}
+		
+		return Collections.EMPTY_LIST;
+	}
+
 }
