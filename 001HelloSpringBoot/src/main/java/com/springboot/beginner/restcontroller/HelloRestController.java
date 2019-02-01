@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.beginner.entity.Product;
+import com.springboot.beginner.exception.ResourceNotFoundException;
 import com.springboot.beginner.service.ProductService;
 
 @RestController
@@ -64,8 +66,9 @@ public class HelloRestController {
 	 */
 	
 	@RequestMapping(value="/get/{id}", method=RequestMethod.GET)
-	public Optional<Product> getProductById(@PathVariable("id") Long myid ) {
-		return productService.getProductById(myid);		
+	public ResponseEntity<Product> getProductById(@PathVariable("id") Long myid ) throws ResourceNotFoundException{
+		Product p = productService.getProductById(myid).orElseThrow(() -> new ResourceNotFoundException("Product not found :" + myid));
+		return ResponseEntity.ok().body(p);
 	}
 	
 	@RequestMapping(value="/update/{id}", method=RequestMethod.POST)
