@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ public class HelloRestController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CacheManager cacheManager;
 	
 	
 	@RequestMapping("/welcome")
@@ -73,7 +78,7 @@ public class HelloRestController {
 		return productService.deleteProductById(id);
 	}
 	
-	@RequestMapping(value="/get/category/{id}")
+	@RequestMapping(value="/get/category/{id}")                                   //         /get/** //user role
 	public  List<Product> getProductByCategoryId(@PathVariable int id){
 		return productService.getProductByCategoryId(id);
 	}
@@ -92,6 +97,12 @@ public class HelloRestController {
 	@RequestMapping("/get/{order}/{price}")
 	public List<Product> getProductByPriceGreaterThan(@PathVariable String order, @PathVariable Long price){
 		return productService.getProductByPriceGreaterThan(order, price);
+	}
+	
+	@GetMapping("/clearallcache")
+	public void clearAllCache() {
+		System.out.println(cacheManager.getCacheNames());
+		cacheManager.getCache("product").clear();
 	}
 	
 	 //http://localhost:1234/get/sort/{entityVariable}/{order}
